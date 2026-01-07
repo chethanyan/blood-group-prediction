@@ -1,13 +1,199 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card">
-  <h2>How it works</h2>
+
+<style>
+/* Fade + slide animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Main card */
+.how-card {
+  background: linear-gradient(180deg, #140407, #0b0205);
+  padding: 48px;
+  margin: 60px auto;
+  max-width: 950px;
+  border-radius: 28px;
+  box-shadow:
+    0 0 40px rgba(177,18,38,0.35),
+    0 35px 120px rgba(0,0,0,0.85);
+  border: 1.5px solid rgba(248,113,113,0.7);
+  animation: fadeIn 0.7s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated glowing border */
+.how-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(248,113,113,0.9),
+    rgba(177,18,38,0.9)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Headings */
+.how-card h2 {
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 24px;
+  background: linear-gradient(90deg, #f87171, #b11226);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.how-card h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: 34px;
+  margin-bottom: 12px;
+  color: #f87171;
+}
+
+/* Paragraphs */
+.how-card p {
+  font-size: 20px;
+  color: #d1c4c7;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* Lists */
+.how-card ol,
+.how-card ul {
+  margin-left: 26px;
+  margin-top: 12px;
+}
+
+.how-card ol li,
+.how-card ul li {
+  padding: 10px 0;
+  font-size: 20px;
+  color: #e5dadd;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* Strong text */
+.how-card strong {
+  color: #fca5a5;
+  font-weight: 800;
+}
+
+/* Code highlight */
+.how-card code {
+  background: rgba(248,113,113,0.15);
+  color: #fca5a5;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Subtle glow on hover */
+.how-card:hover {
+  box-shadow:
+    0 0 55px rgba(248,113,113,0.45),
+    0 45px 140px rgba(0,0,0,0.9);
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .how-card {
+    padding: 34px;
+    margin: 40px 20px;
+  }
+
+  .how-card h2 {
+    font-size: 28px;
+  }
+}
+</style>
+
+
+<div class="how-card">
+  <h2>How the System Works</h2>
+
+  <p>
+    Our system uses a deep-learning powered pipeline to predict a user’s blood group
+    from fingerprint patterns. The entire workflow is fully automated, fast, and follows
+    a structured sequence of processing steps to ensure accuracy and reliability.
+  </p>
+
+  <h3>Step-by-Step Process</h3>
   <ol>
-    <li>Upload fingerprint image</li>
-    <li>Server resizes image to 256x256 and preprocesses it</li>
-    <li>Image is fed to VGG16-based model</li>
-    <li>Model returns predicted blood group and confidence</li>
-    <li>Prediction saved to MySQL (optional if logged in)</li>
+    <li>
+      <strong>Upload Fingerprint Image</strong><br>
+      The user uploads a fingerprint photograph or scanned image in JPG/PNG format.
+    </li>
+
+    <li>
+      <strong>Image Preprocessing</strong><br>
+      The server resizes the image to <code>256 × 256</code>, normalizes pixel values,
+      and applies the preprocessing pipeline used during training.
+    </li>
+
+    <li>
+      <strong>Feature Extraction using VGG16</strong><br>
+      A pre-trained VGG16 CNN extracts deep fingerprint features such as ridges,
+      bifurcations, and unique ridge flow patterns.
+    </li>
+
+    <li>
+      <strong>Classification using Custom Layers</strong><br>
+      The extracted feature vector is passed to dense layers that classify the fingerprint
+      into one of the 8 possible blood groups.
+    </li>
+
+    <li>
+      <strong>Prediction Output</strong><br>
+      The predicted blood group and confidence percentage are displayed to the user.
+    </li>
+
+    <li>
+      <strong>Saving the Results</strong> (For logged-in users)<br>
+      The prediction details are securely stored in the MySQL database for future reference.
+    </li>
+
+    <li>
+      <strong>Real-Time Access Anywhere</strong><br>
+      Users can review prediction history, accuracy trends, and upload new fingerprints.
+    </li>
   </ol>
+
+  <h3>Why This Works</h3>
+  <p>
+    Convolutional Neural Networks like VGG16 are highly effective at learning complex visual
+    structures. Fingerprint ridge patterns contain subtle correlations with biological traits,
+    including blood groups. The deep-learning pipeline captures these patterns and produces
+    reliable predictions.
+  </p>
+
+  <h3>Technologies Used</h3>
+  <ul>
+    <li>VGG16 – Transfer Learning</li>
+    <li>Keras</li>
+    <li>Image Preprocessing & Normalization</li>
+    <li>Flask Web Framework</li>
+    <li>MySQL Database</li>
+  </ul>
+
 </div>
+
 {% endblock %}
