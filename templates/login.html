@@ -2,89 +2,124 @@
 {% block content %}
 
 <style>
-    .login-card {
-        max-width: 480px;
-        margin: auto;
-        padding: 32px;
-        border-radius: 20px;
-        background: #fff;
-        box-shadow: 0 10px 35px rgba(255, 0, 0, 0.15);
-        border: 2px solid #ffcccc;
-        text-align: center;
-        animation: fadeIn 0.4s ease;
-    }
+/* ================= LOGIN CARD ================= */
+.login-card{
+  max-width:450px;
+  margin:40px auto;
+  padding:36px;
+  border-radius:20px;
+  background:linear-gradient(180deg,#0b0204,#050001);
+  border:1px solid rgba(201,42,68,.55);
+  box-shadow:
+    0 0 40px rgba(201,42,68,.25),
+    0 40px 120px rgba(0,0,0,.95);
+  text-align:center;
+  animation:fadeUp .6s ease;
+}
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
+/* ================= ANIMATION ================= */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(18px) scale(.98)}
+  to{opacity:1; transform:none}
+}
 
-    .blood-title {
-        font-size: 30px;
-        font-weight: 800;
-        color: #c60000;
-        margin-bottom: 5px;
-    }
+/* ================= ICON & TITLE ================= */
+.drop-icon{
+  font-size:52px;
+  margin-bottom:6px;
+  color:#c92a44;
+  text-shadow:0 0 20px rgba(201,42,68,.6);
+}
 
-    .blood-sub {
-        font-size: 15px;
-        color: #6b7280;
-        margin-bottom: 20px;
-    }
+.blood-title{
+  font-size:30px;
+  font-weight:900;
+  color:#e24b63;
+  margin-bottom:4px;
+  text-shadow:0 0 15px rgba(201,42,68,.5);
+}
 
-    .blood-input {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border-radius: 12px;
-        border: 2px solid #f5b5b5;
-        font-size: 15px;
-        transition: 0.3s;
-    }
+.blood-sub{
+  font-size:14px;
+  color:#bfa1a8;
+  margin-bottom:22px;
+}
 
-    .blood-input:focus {
-        border-color: #ff4d4d;
-        outline: none;
-    }
+/* ================= INPUTS ================= */
+.blood-input{
+  width:100%;
+  padding:13px 14px;
+  margin:10px 0;
+  border-radius:14px;
+  border:1px solid rgba(201,42,68,.45);
+  background:rgba(255,255,255,.04);
+  color:#f2e6e9;
+  font-size:15px;
+  outline:none;
+  transition:.35s ease;
+}
 
-    .blood-btn {
-        width: 100%;
-        padding: 14px;
-        background: #d90000;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 17px;
-        font-weight: 700;
-        cursor: pointer;
-        margin-top: 14px;
-        transition: 0.25s;
-    }
+.blood-input::placeholder{
+  color:#bfa1a8;
+}
 
-    .blood-btn:hover {
-        background: #b30000;
-    }
+.blood-input:focus{
+  border-color:#c92a44;
+  box-shadow:
+    0 0 0 1px rgba(201,42,68,.7),
+    0 0 18px rgba(201,42,68,.6);
+  background:rgba(255,255,255,.06);
+}
 
-    .blood-link {
-        margin-top: 12px;
-        font-size: 14px;
-    }
+/* ================= BUTTON ================= */
+.blood-btn{
+  width:100%;
+  padding:15px;
+  margin-top:16px;
+  border-radius:16px;
+  border:none;
+  font-size:17px;
+  font-weight:900;
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(135deg,#c92a44,#7a1224);
+  box-shadow:
+    0 0 30px rgba(201,42,68,.55),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+  transition:.3s ease;
+}
 
-    .blood-link a {
-        color: #d90000;
-        font-weight: 600;
-        text-decoration: none;
-    }
+.blood-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 45px rgba(201,42,68,.85);
+}
 
-    .blood-link a:hover {
-        text-decoration: underline;
-    }
+.blood-btn:active{
+  transform:scale(.97);
+}
 
-    .drop-icon {
-        font-size: 48px;
-        color: #d90000;
-        margin-bottom: 5px;
-    }
+/* ================= LINK ================= */
+.blood-link{
+  margin-top:16px;
+  font-size:14px;
+  color:#bfa1a8;
+}
+
+.blood-link a{
+  color:#e24b63;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.blood-link a:hover{
+  text-shadow:0 0 10px rgba(201,42,68,.6);
+}
+
+/* ================= FIX SELECT DROPDOWN BG ================= */
+select option{
+  background:#0b0204;
+  color:#f2e6e9;
+}
 </style>
 
 <div class="login-card">
