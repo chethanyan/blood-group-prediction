@@ -4,35 +4,281 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blood Group Detector</title>
+
   <style>
-    :root{--accent:#3a7afe;--accent-dark:#1a5df4;--muted:#6b7280}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(135deg,#e9f0ff 0%,#fefefe 100%);color:#0f172a}
-    .nav{width:100%;padding:18px 30px;display:flex;justify-content:space-between;align-items:center}
-    .brand{font-weight:700;font-size:20px;color:var(--accent)}
-    .nav ul{list-style:none;display:flex;gap:18px;margin:0;padding:0;align-items:center}
-    .nav a{text-decoration:none;color:#0f172a;padding:8px 12px;border-radius:8px;font-weight:600}
-    .nav a:hover{background:rgba(58,124,254,0.08);color:var(--accent-dark)}
-    .page-wrap{max-width:1100px;margin:40px auto;padding:0 20px}
-    .card{background:#fff;border-radius:18px;padding:28px;box-shadow:0 10px 30px rgba(16,24,40,0.06)}
-    footer{text-align:center;padding:28px 0;color:var(--muted);font-size:14px;margin-top:40px}
-    .muted{color:var(--muted)}
-    .row{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
-    .col{flex:1;min-width:260px}
-    @media (max-width:700px){.nav{padding:14px 16px}.page-wrap{margin:20px auto}}
-    .flash{padding:12px 16px;border-radius:10px;margin-bottom:12px}
-    .flash.success{background:#ecfdf5;color:#065f46}
-    .flash.error{background:#ffefef;color:#991b1b}
-    .btn-primary{padding:10px 18px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+/* ================= ROOT ================= */
+:root{
+  /* Backgrounds */
+  --bg-dark:#040001;
+  --bg-card:#090103;
+
+  /* TRUE blood maroon (less saturation) */
+  --accent:#6e0f1f;        /* dark maroon */
+  --accent-hot:#9b1c31;    /* blood red (not pink) */
+
+  /* Text */
+  --text-main:#eee4e6;
+  --muted:#a9878f;
+
+  /* Glow */
+  --glow-red:rgba(155,28,49,.45);
+}
+
+
+
+/* ================= RESET ================= */
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+body{
+  font-family:Inter,system-ui,Arial;
+   color:var(--text-main);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,77,90,.25), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(255,77,90,.18), transparent 50%),
+    linear-gradient(180deg,#000000,#020001);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+
+/* ================= NAVBAR ================= */
+.nav{
+  padding:22px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(24,3,10,.75);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,90,130,.25);
+}
+
+.brand{
+  font-size:26px;
+  font-weight:900;
+  color:#d9a1aa;
+  text-shadow:0 0 12px rgba(155,28,49,.45);
+}
+
+.nav ul{
+  list-style:none;
+  display:flex;
+  gap:26px;
+}
+
+.nav a{
+  color:#fff;
+  text-decoration:none;
+  font-size:18px;
+  font-weight:700;
+  padding:8px 14px;
+  position:relative;
+}
+
+.nav a::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  bottom:-6px;
+  width:0;
+  height:3px;
+  background:linear-gradient(90deg,var(--accent-hot),var(--accent));
+  border-radius:6px;
+  transform:translateX(-50%);
+  transition:width .35s ease;
+}
+
+.nav a:hover::after{
+  width:70%;
+}
+
+.nav a:hover{
+  color:#f5c4cc;
+  text-shadow:0 0 10px rgba(201,42,68,.4);
+}
+
+/* ================= HERO LAYOUT ================= */
+.hero-wrapper{
+  min-height:calc(100vh - 80px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px 20px;
+}
+
+.hero-card{
+  width:100%;
+  max-width:1100px;
+  padding:40px;
+  border-radius:16px;
+  background:linear-gradient(180deg,#060102,#000000);
+  border:1px solid rgba(255,77,90,.9);
+  box-shadow:
+    0 0 0 2px rgba(255,60,100,.5),
+    0 40px 120px rgba(0,0,0,.9);
+  display:flex;
+  gap:40px;
+  align-items:center;
+}
+.hero-left{
+  flex:1.2;
+}
+
+.hero-right{
+  flex:0.8;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+
+/* ================= TEXT ================= */
+.hero-title{
+  color:#ff5a66;
+  font-size:42px;
+  font-weight:900;
+  text-shadow:0 0 30px rgba(255,77,90,.8);
+  margin-bottom:14px;
+}
+
+
+.hero-subtitle{
+  font-size:16px;
+  color:var(--muted);
+  margin-bottom:30px;
+  line-height:1.6;
+}
+.hero-card:hover{
+  transform:translateY(-6px);
+  box-shadow:
+    0 0 0 1px rgba(201,42,68,.75),
+    0 0 70px rgba(201,42,68,.35),
+    0 60px 140px rgba(0,0,0,.95);
+}
+
+
+/* ================= UPLOAD ================= */
+.upload-box{
+  height:50px;
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border:2px dashed rgba(255,77,90,.7);
+  background:rgba(255,77,90,.05);
+  margin-bottom:22px;
+}
+
+.upload-box span{
+  font-size:16px;
+  color:#ffb3c3;
+}
+
+.upload-box:hover{
+  background:rgba(255,80,120,.15);
+}
+
+/* ================= BUTTON ================= */
+.predict-btn{
+  padding:16px 38px;
+  font-size:17px;
+  font-weight:900;
+  border-radius:20px;
+  border:none;
+  color:#fff;
+ background:linear-gradient(135deg,#ff5a66,#c61f2f);
+  box-shadow:
+    0 0 45px rgba(255,77,90,.8),
+    inset 0 0 0 1px rgba(255,255,255,.15);
+  cursor:pointer;
+
+}
+
+.predict-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 70px rgba(255,77,90,1);
+}
+
+.predict-btn:active{
+  transform:translateY(0) scale(.98);
+}
+
+
+/* ================= RESULT ================= */
+.result-box{
+  margin-top:28px;
+  padding:18px 22px;
+  border-radius:18px;
+  font-size:22px;
+  font-weight:900;
+  color:#FFE7B3;
+  background:rgba(255,183,3,0.12);
+  box-shadow:
+    0 0 30px rgba(255,183,3,.6),
+    inset 0 0 0 1px rgba(255,209,102,.6);
+  animation:resultReveal .8s ease, amberPulse 2s infinite alternate;
+}
+
+@keyframes amberPulse{
+  from{box-shadow:0 0 18px rgba(255,183,3,.5)}
+  to{box-shadow:0 0 45px rgba(255,200,80,.9)}
+}
+
+
+/* ================= IMAGE ================= */
+.preview-img{
+  display:block;
+  margin:30px auto 10px;
+  width:350px;
+  border-radius:20px;
+  box-shadow:
+    0 0 35px rgba(0,0,0,.9),
+    0 0 25px rgba(255,80,140,.6);
+}
+
+/* ================= MISC ================= */
+.ai-loader{
+  margin-top:14px;
+  font-weight:700;
+  color:#ffb3c3;
+}
+
+.tip-text{
+  margin-top:18px;
+  font-size:14px;
+  color:#d6a5b3;
+  text-align:center;
+}
+
+footer{
+  text-align:center;
+  padding:26px;
+  font-size:14px;
+  color:var(--muted);
+  opacity:.85;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:768px){
+  .hero-card{padding:40px 26px}
+  .hero-title{font-size:32px}
+}
   </style>
 </head>
+
 <body>
-  <header class="nav">
-    <div class="brand">🩸 Blood Group Detector</div>
-    <nav>
-      <ul>
-        <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('how_it_works') }}">How it works</a></li>
+
+<header class="nav">
+  <div class="brand">🩸 Blood Group Detector</div>
+  <nav>
+    <ul>
+       <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('how_it_works') }}">Working Principle
+</a></li>
 
         <li><a href="{{ url_for('contact') }}">Contact</a></li>
 
@@ -45,9 +291,10 @@
 
 
         {% if session.get('user_id') %}
-          <li><a href="#">Hi, {{ session['user_name'] }}</a></li>
+
           <li><a href="{{ url_for('history') }}">History</a></li>
           <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          <li><a href="#">Hi, {{ session['user_name'] }}</a></li>
         {% else %}
           <li><a href="{{ url_for('login') }}">Login</a></li>
           <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
@@ -55,29 +302,17 @@
         {% if session.get('user_id') %}
     <li><a href="{{ url_for('account') }}">My Account</a></li>
 {% endif %}
+    </ul>
+  </nav>
+</header>
 
-      </ul>
-    </nav>
-  </header>
+<main>
+  {% block content %}{% endblock %}
+</main>
 
-  <main class="page-wrap">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, msg in messages %}
-          <div class="flash {{ 'success' if category=='success' else 'error' }}">{{ msg }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+<footer>
+  © 2025 Blood Group Detection AI • Built with Flask
+</footer>
 
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer>
-    © 2025 Blood Group Detection AI • Built with Flask
-  </footer>
-
-  <script>
-    function showLoaderText(elementId, text){ const el = document.getElementById(elementId); if(el) el.innerText = text; }
-  </script>
 </body>
 </html>
