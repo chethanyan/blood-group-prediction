@@ -2,55 +2,176 @@
 {% block content %}
 
 <style>
-    .history-card {
-        background: #fff;
-        padding: 25px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(255,0,0,0.15);
-        border: 2px solid #ffcccc;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-    }
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #f2f2f2;
-    }
-    th {
-        background: #ffe5e5;
-        color: #c60000;
-        font-weight: 700;
-    }
+/* ================= RECTANGULAR HISTORY CARD ================= */
+.history-card{
+  width:100%;
+  max-width:1200px;           /* WIDE RECTANGLE */
+  margin:0 auto;
+  background:linear-gradient(180deg,#120206,#060102);
+  padding:50px 60px;
+  border-radius:36px;
+  box-shadow:
+    0 0 0 2px rgba(255,80,140,.35),
+    0 50px 150px rgba(0,0,0,.95);
+  animation:cardEnter 1s ease;
+}
+
+@keyframes cardEnter{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1}
+}
+
+/* ================= HEADER ================= */
+.history-card h2{
+  font-size:36px;              /* BIG TITLE */
+  font-weight:900;
+  color:#ff5c7c;
+  text-shadow:0 0 25px rgba(255,90,130,.9);
+  margin-bottom:8px;
+}
+
+.history-card .muted{
+  font-size:17px;
+  color:#d6a5b3;
+  margin-bottom:32px;
+}
+
+/* ================= TABLE ================= */
+table{
+  width:100%;
+  border-collapse:collapse;
+  border-radius:22px;
+  overflow:hidden;
+}
+
+th, td{
+  padding:20px 22px;           /* MORE BREATHING SPACE */
+  text-align:left;
+}
+
+th{
+  background:rgba(255,80,140,.18);
+  color:#ffd6e0;
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+td{
+  color:#e6c5ce;
+  font-size:16px;
+}
+
+/* ================= ROW EFFECT ================= */
+tbody tr{
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:.35s;
+}
+
+tbody tr:last-child{
+  border-bottom:none;
+}
+
+tbody tr:hover{
+  background:rgba(255,80,140,.10);
+  box-shadow:inset 0 0 0 1px rgba(255,80,140,.35);
+}
+
+/* ================= IMAGE ================= */
+.history-img{
+  width:90px;                 /* BIGGER IMAGE */
+  border-radius:18px;
+  box-shadow:
+    0 0 25px rgba(0,0,0,.9),
+    0 0 20px rgba(255,80,140,.6);
+  transition:.3s;
+}
+
+.history-img:hover{
+  transform:scale(1.1);
+}
+
+/* ================= BLOOD GROUP ================= */
+.blood-label{
+  font-size:18px;
+  font-weight:900;
+  color:#ffd6e0;
+}
+
+/* ================= CONFIDENCE ================= */
+.confidence{
+  font-size:17px;
+  font-weight:900;
+  color:#FFE7B3;
+  text-shadow:0 0 18px rgba(255,183,3,.9);
+}
+
+/* ================= DATE ================= */
+.date-text{
+  font-size:15px;
+  color:#bfa3ab;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:900px){
+  .history-card{
+    padding:36px 26px;
+  }
+  .history-card h2{
+    font-size:30px;
+  }
+  th, td{
+    padding:14px;
+    font-size:14px;
+  }
+  .history-img{
+    width:70px;
+  }
+}
 </style>
 
-<div class="history-card">
-    <h2>🩸 Your Prediction History</h2>
-    <p class="muted">All your past predictions appear here.</p>
+<div class="hero-wrapper">
+  <div class="history-card">
+
+    <h2>🩸 Prediction History</h2>
+    <p class="muted">All your past AI blood group predictions.</p>
 
     <table>
+      <thead>
         <tr>
-            <th>Image</th>
-            <th>Predicted Group</th>
-            <th>Confidence</th>
-            <th>Date</th>
+          <th>Fingerprint</th>
+          <th>Blood Group</th>
+          <th>Confidence</th>
+          <th>Date</th>
         </tr>
+      </thead>
 
+      <tbody>
         {% for row in history %}
         <tr>
-            <td>
-                <img src="{{ url_for('static', filename='uploads/' + row.image_name) }}"
-                     style="width:70px;border-radius:8px;">
-            </td>
-            <td>{{ row.predicted_label }}</td>
-            <td>{{ "%.2f"|format(row.confidence) }}%</td>
-            <td>{{ row.timestamp }}</td>
+          <td>
+            <img
+              src="{{ url_for('static', filename='uploads/' + row.image_name) }}"
+              class="history-img">
+          </td>
+
+          <td class="blood-label">
+            🧬 {{ row.predicted_label }}
+          </td>
+
+          <td class="confidence">
+            {{ "%.2f"|format(row.confidence) }}%
+          </td>
+
+          <td class="date-text">
+            {{ row.timestamp }}
+          </td>
         </tr>
         {% endfor %}
+      </tbody>
     </table>
 
+  </div>
 </div>
 
 {% endblock %}
