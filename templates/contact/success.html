@@ -2,34 +2,85 @@
 {% block content %}
 
 <style>
-body{
-    font-family: Arial;
-    background:#f6f9fb;
-    text-align:center;
-    padding:40px;
+/* ================= SUCCESS CARD ================= */
+.success-card{
+  max-width:520px;
+  margin:80px auto;
+  padding:36px;
+  border-radius:22px;
+  background:linear-gradient(180deg,#060102,#000000);
+  border:1px solid rgba(255,77,90,.9);
+  box-shadow:
+    0 0 0 1px rgba(255,77,90,.6),
+    0 0 60px rgba(255,77,90,.35),
+    0 50px 140px rgba(0,0,0,1);
+  text-align:center;
+  animation:fadeUp .6s ease;
 }
 
-.box{
-    background:#fff;
-    padding:30px;
-    display:inline-block;
-    border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+/* ================= ANIMATION ================= */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(18px) scale(.98)}
+  to{opacity:1; transform:none}
 }
 
-a{
-    color:#005EB8;
-    font-weight:600;
-    text-decoration:none;
+/* ================= ICON ================= */
+.success-icon{
+  font-size:56px;
+  margin-bottom:14px;
+  color:#ff5a66;
+  text-shadow:0 0 30px rgba(255,77,90,.8);
+}
+
+/* ================= TEXT ================= */
+.success-card h2{
+  color:#ff5a66;
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:10px;
+  text-shadow:0 0 20px rgba(255,77,90,.7);
+}
+
+.success-card p{
+  color:#d1b3b8;
+  font-size:15px;
+  margin-bottom:22px;
+}
+
+/* ================= LINK BUTTON ================= */
+.success-card a{
+  display:inline-block;
+  padding:12px 26px;
+  border-radius:16px;
+  font-weight:900;
+  font-size:15px;
+  text-decoration:none;
+  color:#fff;
+  background:linear-gradient(135deg,#ff5a66,#c61f2f);
+  box-shadow:
+    0 0 35px rgba(255,77,90,.85),
+    inset 0 0 0 1px rgba(255,255,255,.15);
+  transition:.35s ease;
+}
+
+.success-card a:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 60px rgba(255,77,90,1);
+}
+
+.success-card a:active{
+  transform:scale(.97);
 }
 </style>
 
-<div class="box">
-    <h2>Message sent successfully!</h2>
-    <p>Thank you for contacting us.</p>
 
-    <!-- FIXED LINK: Uses Flask route instead of HTML file -->
-    <p><a href="{{ url_for('contact') }}">Back to Contact Page</a></p>
+<div class="success-card">
+  <div class="success-icon">✅</div>
+  <h2>Message Sent Successfully!</h2>
+  <p>Thank you for contacting us. We’ll get back to you shortly.</p>
+
+  <a href="{{ url_for('contact') }}">Back to Contact Page</a>
 </div>
+
 
 {% endblock %}
