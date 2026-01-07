@@ -2,26 +2,94 @@
 {% block content %}
 
 <style>
-.edit-card {
-    max-width: 530px;
-    margin: auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 20px;
-    border: 2px solid #ffcccc;
-    box-shadow: 0 10px 25px rgba(255,0,0,0.15);
+/* ================= EDIT CARD ================= */
+.edit-card{
+  max-width:540px;
+  margin:40px auto;
+  padding:36px;
+  border-radius:22px;
+  background:linear-gradient(180deg,#060102,#000000);
+  border:1px solid rgba(255,77,90,.9);
+  box-shadow:
+    0 0 0 1px rgba(255,77,90,.6),
+    0 0 60px rgba(255,77,90,.35),
+    0 50px 140px rgba(0,0,0,1);
+  animation:fadeUp .6s ease;
 }
-.edit-card h2 {
-    color: #b30000;
-    font-weight: 800;
-    text-align:center;
+
+/* ================= ANIMATION ================= */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(18px) scale(.98)}
+  to{opacity:1; transform:none}
 }
-.input-field {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 12px;
-    border: 2px solid #f5b5b5;
+
+/* ================= TITLE ================= */
+.edit-card h2{
+  color:#ff5a66;
+  font-weight:900;
+  font-size:30px;
+  text-align:center;
+  margin-bottom:22px;
+  text-shadow:0 0 25px rgba(255,77,90,.8);
+}
+
+/* ================= INPUTS ================= */
+.input-field{
+  width:100%;
+  padding:13px 14px;
+  margin:10px 0;
+  border-radius:14px;
+  border:1px solid rgba(255,77,90,.45);
+  background:rgba(255,255,255,.04);
+  color:#ffffff;
+  font-size:15px;
+  outline:none;
+  transition:.35s ease;
+}
+
+.input-field::placeholder{
+  color:#d1b3b8;
+}
+
+.input-field:focus{
+  border-color:#ff4d5a;
+  box-shadow:
+    0 0 0 1px rgba(255,77,90,.7),
+    0 0 20px rgba(255,77,90,.6);
+  background:rgba(255,255,255,.06);
+}
+
+/* ================= SELECT FIX ================= */
+select option{
+  background:#060102;
+  color:#ffffff;
+}
+
+/* ================= SAVE BUTTON ================= */
+.save-btn{
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border-radius:18px;
+  border:none;
+  font-size:17px;
+  font-weight:900;
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(135deg,#ff5a66,#c61f2f);
+  box-shadow:
+    0 0 40px rgba(255,77,90,.85),
+    inset 0 0 0 1px rgba(255,255,255,.15);
+  transition:.35s ease;
+}
+
+.save-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 70px rgba(255,77,90,1);
+}
+
+.save-btn:active{
+  transform:scale(.97);
 }
 </style>
 
@@ -45,20 +113,12 @@
         <input type="text" name="location" class="input-field"
                value="{{ user.location }}" placeholder="City">
 
-        <select name="blood_group" class="input-field">
-            <option {{ "selected" if user.blood_group=="A+" else "" }}>A+</option>
-            <option {{ "selected" if user.blood_group=="A-" else "" }}>A-</option>
-            <option {{ "selected" if user.blood_group=="B+" else "" }}>B+</option>
-            <option {{ "selected" if user.blood_group=="B-" else "" }}>B-</option>
-            <option {{ "selected" if user.blood_group=="AB+" else "" }}>AB+</option>
-            <option {{ "selected" if user.blood_group=="AB-" else "" }}>AB-</option>
-            <option {{ "selected" if user.blood_group=="O+" else "" }}>O+</option>
-            <option {{ "selected" if user.blood_group=="O-" else "" }}>O-</option>
-        </select>
 
-        <button class="btn btn-danger" style="width:100%; margin-top:15px;">
-            Save Changes
-        </button>
+
+        <button class="save-btn">
+    Save Changes
+</button>
+
 
     </form>
 </div>
