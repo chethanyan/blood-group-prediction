@@ -1,50 +1,65 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card">
-  <div class="row">
-    <div class="col" style="flex:0 0 420px;">
-      <h1 style="margin:0 0 8px 0;">🩺 Predict Blood Group</h1>
-      <p class="muted" style="margin-top:0">Upload a fingerprint image and click Predict.</p>
 
-      <form method="POST" enctype="multipart/form-data" onsubmit="showLoaderText('loader','Analyzing...')">
-        <div style="margin-top:18px;">
-          <input type="file" name="image" accept="image/*" onchange="previewLocal(event)" required>
-        </div>
+<section class="hero-wrapper">
+  <div class="hero-card">
 
-        <div style="margin-top:14px;">
-          <button class="btn-primary" type="submit">🔍 Predict</button>
-        </div>
+    <!-- LEFT SIDE -->
+    <div class="hero-left">
+      <h1 class="hero-title">🩺 Predict Blood Group</h1>
+      <p class="hero-subtitle">
+        Upload a fingerprint image and let AI predict the blood group.
+      </p>
+
+      <form method="POST" enctype="multipart/form-data"
+            onsubmit="showLoaderText('loader','🧠 AI is analyzing fingerprint...')">
+
+        <label class="upload-box">
+          <input type="file" name="image" accept="image/*"
+                 onchange="previewLocal(event)" hidden required>
+          <span id="fileText">📁 Choose Fingerprint Image</span>
+        </label>
+
+        <button class="predict-btn" type="submit">
+          🔍 Predict Blood Group
+        </button>
       </form>
 
-      <div id="loader" style="margin-top:12px;color:var(--muted)"></div>
+      <div id="loader" class="ai-loader"></div>
 
       {% if prediction %}
-        <div style="margin-top:18px;font-weight:700;color:green;">{{ prediction }}</div>
+      <div class="result-box">
+        🧬 Predicted Blood Group: <span>{{ prediction }}</span>
+      </div>
+      {% endif %}
+
+      <p class="tip-text">
+        Tip: Use clear fingerprint images for better predictions.
+      </p>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="hero-right">
+      {% if image_file %}
+      <img id="preview"
+           src="{{ url_for('static', filename='uploads/' + image_file) }}"
+           class="preview-img">
+      {% else %}
+      <img id="preview" class="preview-img" style="display:none;">
       {% endif %}
     </div>
 
-    <div class="col">
-      <div style="text-align:center">
-        {% if image_file %}
-          <img id="preview" src="{{ url_for('static', filename='uploads/' + image_file) }}" style="max-width:240px;border-radius:12px;" />
-        {% else %}
-          <img id="preview" style="max-width:240px;border-radius:12px;display:none;" />
-        {% endif %}
-      </div>
-
-      <div style="margin-top:18px;font-size:14px;color:var(--muted)">
-        <p><strong>Tip:</strong> Use clear fingerprint images for better predictions.</p>
-      </div>
-    </div>
   </div>
-</div>
+</section>
 
 <script>
-  function previewLocal(event){
-    const img = document.getElementById('preview');
-    img.src = URL.createObjectURL(event.target.files[0]);
-    img.style.display = 'block';
-  }
+function previewLocal(event){
+  const img = document.getElementById('preview');
+  const text = document.getElementById('fileText');
+  img.src = URL.createObjectURL(event.target.files[0]);
+  img.style.display = 'block';
+  text.innerText = `📄 ${event.target.files[0].name}`;
+}
 </script>
 
 {% endblock %}
